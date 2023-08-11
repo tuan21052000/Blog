@@ -1,13 +1,27 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import "./styles/index.scss";
+import  { createRoot } from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import { theme } from './utils/constants';
+import { GlobalStyles } from './styles/GlobalStyles';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const container = document.getElementById("root");
+const root = createRoot(container);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <GlobalStyles></GlobalStyles>
+      <BrowserRouter>
+          <App />
+          <ToastContainer></ToastContainer>
+      </BrowserRouter>
+    </ThemeProvider>
   </React.StrictMode>
 );
 

@@ -1,23 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './contexts/auth-context';
+import SignUpPage from './pages/SignUpPage';
+import UserTable from './module/user/UserTable';
+import React ,{ Suspense} from 'react';
+// import PostUpdate from './module/post/PostUpdate';
+
+const HomePage = React.lazy(() => import("./pages/HomePage"));
+const CategoryPage = React.lazy(() => import("./pages/CategoryPage"));
+const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
+const SignInPage = React.lazy(() => import("./pages/SignInPage"));
+const PostDetialsPage = React.lazy(() => import("./pages/PostDetailsPage"));
+const PageNotFound = React.lazy(() => import("./pages/PageNotFound"));
+const UserUpdate = React.lazy(() => import("./module/user/UserUpdate"));
+const UserAddNew = React.lazy(() => import("./module/user/UserAddNew"));
+// const UserManage = React.lazy(() => import("./module/user/UserManage"));
+const UserProfile = React.lazy(() => import("./module/user/UserProfile"));
+const PostAddNew = React.lazy(() => import("./module/post/PostAddNew"));
+const PostManage = React.lazy(() => import("./module/post/PostManage"));
+const PostUpdate = React.lazy(() => import("./module/post/PostUpdate"));
+const CategoryAddNew = React.lazy(() => import('./module/category/CategoryAddNew'));
+const CategoryManage = React.lazy(() => import('./module/category/CategoryManage'));
+const CategoryUpdate = React.lazy(() => import('./module/category/CategoryUpdate'));
+const  DashboardLayout = React.lazy(() => import('./module/dashboard//DashboardLayout'));
 
 function App() {
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+       <AuthProvider>
+         <Suspense>
+            <Routes>
+              <Route path='/' element={<HomePage></HomePage>}></Route>
+              <Route path='/sign-up' element={<SignUpPage></SignUpPage>}></Route>
+              <Route path='/sign-in' element={<SignInPage></SignInPage>}></Route>
+              <Route path='*' element={<PageNotFound></PageNotFound>}></Route>
+              <Route path="/category/:slug" element={<CategoryPage></CategoryPage>}></Route>
+              <Route path="/:slug" element={<PostDetialsPage></PostDetialsPage>}></Route>
+              <Route element={<DashboardLayout></DashboardLayout>}>
+                <Route path='/dashboard' element={<DashboardPage></DashboardPage>}></Route>
+                <Route path="/manage/posts" element={<PostManage></PostManage>}></Route>
+                <Route path="/manage/add-post" element={<PostAddNew></PostAddNew>}></Route>
+                <Route path="/manage/category" element={<CategoryManage></CategoryManage>}></Route>
+                <Route path='/manage/add-category' element={<CategoryAddNew></CategoryAddNew>}></Route>
+                <Route path='/manage/update-category' element={<CategoryUpdate></CategoryUpdate>}></Route>
+                <Route path='/manage/user' element={<UserTable></UserTable>}></Route>
+                <Route path='/manage/add-user' element={<UserAddNew></UserAddNew>}></Route>
+                <Route path='/manage/update-user' element={<UserUpdate></UserUpdate>}></Route>
+                <Route path='/manage/update-post' element={<PostUpdate></PostUpdate>}></Route>
+                <Route path="/profile" element={<UserProfile></UserProfile>} ></Route>
+              </Route>
+          
+            </Routes>
+          </Suspense>
+       </AuthProvider>
+      
     </div>
   );
 }
